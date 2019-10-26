@@ -1,0 +1,82 @@
+pkgname=vulkan-mesa-layer-mango
+pkgver=19.3.0
+pkgrel=1
+pkgdesc="Vulkan overlay layer to display information about the application (Mango edition)"
+arch=('x86_64')
+makedepends=('git' 'meson' 'gcc-libs' 'python-mako' 'libdrm' 'llvm' 'glslang' 'libelf' 'expat' 'libx11')
+url="http://mesa3d.sourceforge.net"
+license=('custom')
+md5sums=('SKIP')
+mango_srcdir="mango"       
+source=("mango"::"git+https://github.com/flightlessmango/mesa.git")
+
+pkgver() {
+    cd $mango_srcdir
+    read -r _ver <VERSION
+    echo ${_ver/-/_}.$(git rev-list --count HEAD).$(git rev-parse --short HEAD)
+}
+
+prepare() {
+  cd mango 
+
+}
+
+build() {
+  export CC="gcc -m64"
+  export CXX="g++ -m64"
+  export PKG_CONFIG_PATH="/usr/lib/pkgconfig"
+  export LLVM_CONFIG="/usr/bin/llvm-config"
+
+  arch-meson mango build \
+    --libdir=/usr/lib \
+    -D b_lto=false \
+    -D b_ndebug=true \
+    -D vulkan-drivers=intel \
+    -D swr-arches=avx,avx2 \
+    -D egl=false \
+    -D gallium-extra-hud=false \
+    -D gallium-nine=false \
+    -D gallium-omx=disabled \
+    -D gallium-opencl=disabled \
+    -D gallium-va=false \
+    -D gallium-vdpau=false \
+    -D gallium-xa=false \
+    -D gallium-xvmc=false \
+    -D gbm=false \
+    -D gles1=false \
+    -D gles2=false \
+    -D glvnd=false \
+    -D libunwind=false \
+    -D llvm=true \
+    -D lmsensors=false \
+    -D shader-cache=true \
+    -D shared-glapi=true \
+    -D valgrind=false \
+    -D vulkan-overlay-layer=true \
+
+  # Print config
+  meson configure build
+
+  ninja -C build
+
+  # fake installation to be seperated into packages
+  # outside of fakeroot but mesa doesn't need to chown/mod
+  DESTDIR="${srcdir}/fakeinstall" ninja -C build install
+}
+
+_install() {
+  local src f dir
+  for src; do
+    f="${src#fakeinstall/}"
+    dir="${pkgdir}/${f%/*}"
+    install -m755 -d "${dir}"
+    mv -v "${src}" "${dir}/"
+  done
+}
+
+package() {
+
+  _install fakeinstall/usr/lib/libVkLayer_MESA_overlay_mango.so
+  _install fakeinstall/usr/share/vulkan/explicit_layer.d/VkLayer_MESA_overlay_mango.json
+
+}
