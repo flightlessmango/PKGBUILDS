@@ -1,4 +1,4 @@
-pkgname=('vulkan-mesa-layer-mango' 'lib32-vulkan-mesa-layer-mango')
+pkgname=('mangohud' 'lib32-mangohud')
 pkgver=20.0.0_devel.117728.750e69d5a9a
 pkgrel=1
 pkgdesc="Vulkan overlay layer to display information about the application (Mango edition)"
@@ -80,13 +80,13 @@ build32() {
   DESTDIR="${srcdir}/fakeinstall" ninja -C build install
 }
 
-package_vulkan-mesa-layer-mango() {
+package_mangohud() {
   provides=("vulkan-mesa-layer-mango=${pkgver}")
   build64
   install -Dm664 "${srcdir}/fakeinstall/usr/lib/libVkLayer_MESA_overlay_mango.so" "${pkgdir}/usr/lib/libVkLayer_MESA_overlay_mango.so"
   install -Dm664 "${srcdir}/fakeinstall/usr/share/vulkan/explicit_layer.d/VkLayer_MESA_overlay_mango.json" "${pkgdir}/usr/share/vulkan/explicit_layer.d/VkLayer_MESA_overlay_mango.json"
 }
-package_lib32-vulkan-mesa-layer-mango() {
+package_lib32-mangohud() {
   provides=("lib32-vulkan-mesa-layer-mango=${pkgver}")
   build32
   install -Dm664 "${srcdir}/fakeinstall/usr/lib32/libVkLayer_MESA_overlay_mango.so" "${pkgdir}/usr/lib32/libVkLayer_MESA_overlay_mango.so"
