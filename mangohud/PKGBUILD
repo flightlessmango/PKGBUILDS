@@ -83,11 +83,11 @@ build32() {
 package_mangohud() {
   provides=("mangohud=${pkgver}")
   build64
-  install -Dm664 "${srcdir}/fakeinstall/usr/lib/libVkLayer_MESA_overlay_mango.so" "${pkgdir}/usr/lib/libVkLayer_MESA_overlay_mango.so"
-  install -Dm664 "${srcdir}/fakeinstall/usr/share/vulkan/explicit_layer.d/VkLayer_MESA_overlay_mango.json" "${pkgdir}/usr/share/vulkan/explicit_layer.d/VkLayer_MESA_overlay_mango.json"
+  install -Dm664 "${srcdir}/fakeinstall/usr/lib/libMangoHud.so" "${pkgdir}/usr/lib/libMangoHud.so"
+  install -Dm664 "${srcdir}/fakeinstall/usr/share/vulkan/explicit_layer.d/mangohud.json" "${pkgdir}/usr/share/vulkan/explicit_layer.d/mangohud.json"
 }
 package_lib32-mangohud() {
   provides=("lib32-mangohud=${pkgver}")
   build32
-  install -Dm664 "${srcdir}/fakeinstall/usr/lib32/libVkLayer_MESA_overlay_mango.so" "${pkgdir}/usr/lib32/libVkLayer_MESA_overlay_mango.so"
+  install -Dm664 "${srcdir}/fakeinstall/usr/lib32/libMangoHud.so" "${pkgdir}/usr/lib32/libMangoHud.so"
 }
