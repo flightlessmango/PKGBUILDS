@@ -84,7 +84,7 @@ package_mangohud() {
   provides=("mangohud=${pkgver}")
   build64
   install -Dm664 "${srcdir}/fakeinstall/usr/lib/libMangoHud.so" "${pkgdir}/usr/lib/libMangoHud.so"
-  install -Dm664 "${srcdir}/fakeinstall/usr/share/vulkan/explicit_layer.d/mangohud.json" "${pkgdir}/usr/share/vulkan/explicit_layer.d/mangohud.json"
+  install -Dm664 "${srcdir}/fakeinstall/usr/share/vulkan/implicit_layer.d/mangohud.json" "${pkgdir}/usr/share/vulkan/implicit_layer.d/mangohud.json"
 }
 package_lib32-mangohud() {
   provides=("lib32-mangohud=${pkgver}")
