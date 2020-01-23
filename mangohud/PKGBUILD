@@ -5,6 +5,7 @@ pkgdesc="Vulkan overlay layer to display information about the application (Mang
 arch=('x86_64')
 makedepends=('git' 'meson' 'lib32-gcc-libs' 'gcc-libs' 'python-mako' 'lib32-libdrm' 'libdrm' 'lib32-llvm' 'llvm' 'glslang' 'lib32-libelf' 'libelf' 'lib32-expat' 'expat' 'libx11' 'lib32-wayland' 'wayland')
 depends=('mesa' 'wayland-protocols' 'lib32-libxext' 'libxext' 'lib32-libxdamage' 'libxdamage' 'lib32-libxshmfence' 'libxshmfence' 'lib32-libxrandr' 'libxrandr')
+replaces=('vulkan-mesa-layer-mango' 'lib32-vulkan-mesa-layer-mango')
 url="https://github.com/flightlessmango/mesa/tree/mango/src/vulkan/overlay-layer"
 license=('custom')
 md5sums=('SKIP')
