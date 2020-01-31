@@ -1,51 +1,24 @@
 pkgname=('mangohud' 'lib32-mangohud')
-pkgver=20.0.0_devel.117728.750e69d5a9a
+pkgver=r40.9527868
 pkgrel=1
-pkgdesc="Vulkan overlay layer to display information about the application (Mango edition)"
+pkgdesc="Vulkan overlay layer to display information about the application"
 arch=('x86_64')
-makedepends=('git' 'meson' 'lib32-gcc-libs' 'gcc-libs' 'python-mako' 'lib32-libdrm' 'libdrm' 'lib32-llvm' 'llvm' 'glslang' 'lib32-libelf' 'libelf' 'lib32-expat' 'expat' 'libx11' 'lib32-wayland' 'wayland')
-depends=('mesa' 'wayland-protocols' 'lib32-libxext' 'libxext' 'lib32-libxdamage' 'libxdamage' 'lib32-libxshmfence' 'libxshmfence' 'lib32-libxrandr' 'libxrandr')
+makedepends=('gcc' 'meson' 'python-mako' 'libx11' 'lib32-libx11' 'git')
+depends=('glslang' 'libglvnd' 'lib32-libglvnd' 'vulkan-headers')
 replaces=('vulkan-mesa-layer-mango' 'lib32-vulkan-mesa-layer-mango')
-url="https://github.com/flightlessmango/mesa/tree/mango/src/vulkan/overlay-layer"
 license=('custom')
 md5sums=('SKIP')
-source=("vulkan-mesa-layer-mango"::"git+https://github.com/flightlessmango/mesa.git")
-build_args="-D b_lto=false \
-            -D b_ndebug=true \
-            -D platforms=x11 \
-            -D dri-drivers=[] \
-            -D gallium-drivers=[] \
-            -D vulkan-drivers=intel \
-            -D swr-arches=avx,avx2 \
-            -D dri3=true \
-            -D egl=false \
-            -D gallium-extra-hud=false \
-            -D gallium-nine=false \
-            -D gallium-omx=disabled \
-            -D gallium-opencl=disabled \
-            -D gallium-va=false \
-            -D gallium-vdpau=false \
-            -D gallium-xa=false \
-            -D gallium-xvmc=false \
-            -D gbm=false \
-            -D gles1=false \
-            -D gles2=false \
-            -D glvnd=false \
-            -D glx=disabled \
-            -D libunwind=false \
-            -D llvm=true \
-            -D lmsensors=false \
-            -D osmesa=none \
-            -D opengl=false \
-            -D shader-cache=true \
-            -D shared-glapi=true \
-            -D valgrind=false \
-            -D vulkan-overlay-layer=true"
+source=("mangohud"::"git+https://github.com/flightlessmango/mangohud.git")
+build_args=""
 
 pkgver() {
-  cd "${srcdir}/vulkan-mesa-layer-mango"
-  read -r _ver <VERSION
-  echo ${_ver/-/_}.$(git rev-list --count HEAD).$(git rev-parse --short HEAD)
+  cd "${srcdir}/mangohud"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+prepare() {
+  cd "${srcdir}/mangohud"
+  git submodule update --init --depth 50
 }
 
 build64() {
@@ -57,7 +30,7 @@ build64() {
   cd "${srcdir}"
   rm -rf "build"
   rm -rf "fakeinstall"
-  arch-meson vulkan-mesa-layer-mango build \
+  arch-meson mangohud build \
     --libdir=/usr/lib \
     ${build_args}
 
@@ -73,7 +46,7 @@ build32() {
   cd "${srcdir}"
   rm -rf "build"
   rm -rf "fakeinstall"
-  arch-meson vulkan-mesa-layer-mango build \
+  arch-meson mangohud build \
     --libdir=/usr/lib32 \
     ${build_args}
 
