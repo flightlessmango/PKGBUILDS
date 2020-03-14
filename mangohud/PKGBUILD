@@ -8,7 +8,7 @@ depends=('glslang' 'libglvnd' 'lib32-libglvnd')
 replaces=('vulkan-mesa-layer-mango')
 license=('MIT')
 md5sums=('SKIP')
-source=("mangohud"::"git+https://github.com/flightlessmango/mangohud.git#branch=develop")
+source=("mangohud"::"git+https://github.com/flightlessmango/mangohud.git")
 build_args="-Dappend_libdir_mangohud=false -Duse_system_vulkan=enabled"
 
 pkgver() {
