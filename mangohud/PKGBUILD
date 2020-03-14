@@ -41,12 +41,13 @@ build() {
 package_mangohud-git() {
   provides=("mangohud-git")
   conflicts=('mangohud')
+  replaces=('mangohud')
 
   DESTDIR="${pkgdir}" ninja -C build64 install
 }
 
 package_lib32-mangohud-git() {
-  replaces=('lib32-vulkan-mesa-layer-mango')
+  replaces=('lib32-vulkan-mesa-layer-mango', 'lib32-mangohud')
   provides=("lib32-mangohud-git")
   conflicts=('lib32-mangohud')
 
