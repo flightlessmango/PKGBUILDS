@@ -9,7 +9,7 @@ replaces=('vulkan-mesa-layer-mango')
 license=('MIT')
 md5sums=('SKIP')
 source=("mangohud"::"git+https://github.com/flightlessmango/mangohud.git")
-build_args="-Dappend_libdir_mangohud=false -Duse_system_vulkan=enabled"
+build_args="-Dappend_libdir_mangohud=false"
 
 pkgver() {
     cd "$srcdir/mangohud"
